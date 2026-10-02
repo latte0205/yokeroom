@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@yokeroom | 森合室</title>
+<meta name="description" content="森合室｜24H預約制空間租借｜跳舞練習室｜瑜伽空間｜講座場地｜活動場地">
+<link rel="icon" href="assets/avatar.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eceef1;
+    --page: #c9ccd1;
+    --fg: #000000;
+    --btn-bg: #ffffff;
+    --btn-fg: #000000;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+    color: var(--fg); background: var(--page); -webkit-font-smoothing: antialiased;
+  }
+  .page { position: relative; max-width: 580px; min-height: 100vh; margin: 0 auto; overflow: hidden; background: var(--bg); }
+  @media (min-width: 640px) {
+    .page { margin-top: 40px; border-radius: 32px 32px 0 0; min-height: calc(100vh - 40px); box-shadow: 0 10px 40px rgba(0,0,0,.12); }
+  }
+  .corner {
+    position: absolute; top: 12px; width: 40px; height: 40px; border-radius: 12px; border: 0;
+    display: grid; place-items: center; background: #fff; color: #000; cursor: pointer;
+  }
+  .corner svg { width: 20px; height: 20px; }
+  .corner.left { left: 12px; } .corner.right { right: 12px; }
+  @media (min-width: 640px) { .corner { top: 28px; } .corner.left { left: 28px; } .corner.right { right: 28px; } }
+
+  main { position: relative; padding: 72px 14px 120px; display: flex; flex-direction: column; align-items: center; }
+  @media (min-width: 640px) { main { padding: 104px 28px 64px; } }
+  .avatar { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; background: #fff; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  h1 { margin-top: 16px; font-size: 24px; font-weight: 700; line-height: 1.3; text-align: center; }
+  .bio { margin-top: 6px; font-size: 16px; line-height: 1.5; text-align: center; padding: 0 24px; max-width: 320px; }
+
+  .links { width: 100%; margin-top: 32px; display: flex; flex-direction: column; gap: 28px; }
+  .group { display: flex; flex-direction: column; gap: 14px; }
+  .group-title { margin: 4px 0 2px; font-size: 14px; font-weight: 700; text-align: center; line-height: 1.5; }
+  @media (min-width: 640px) { .group-title { font-size: 16px; } }
+
+  .btn {
+    position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 100%; min-height: 64px; padding: 8px 64px;
+    background: var(--btn-bg); color: var(--btn-fg);
+    border: 0; border-radius: 8px;
+    font: inherit; font-size: 14px; font-weight: 500; line-height: 1.4; text-align: center;
+    text-decoration: none; cursor: pointer; transition: transform .15s ease;
+  }
+  @media (min-width: 640px) { .btn { font-size: 16px; } }
+  .btn:hover { transform: scale(1.02); }
+  .btn .sub { display: flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 400; opacity: .65; margin-top: 1px; }
+  .btn .sub svg { width: 12px; height: 12px; fill: currentColor; flex: none; }
+  .btn .thumb {
+    position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; display: grid; place-items: center; border-radius: 8px; overflow: hidden;
+  }
+  .btn .thumb .icon { width: 32px; height: 32px; color: var(--btn-fg); }
+  .btn .thumb .icon svg { width: 100%; height: 100%; display: block; }
+  .btn .more {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 40px; height: 40px; display: grid; place-items: center; opacity: .55;
+  }
+  .btn .more svg { width: 16px; height: 16px; }
+
+  /* Modal */
+  .modal {
+    position: fixed; inset: 0; z-index: 10; display: none; align-items: flex-end; justify-content: center;
+    background: rgba(0,0,0,.55);
+  }
+  .modal.open { display: flex; }
+  .sheet {
+    width: 100%; max-width: 580px; max-height: 88vh; overflow: auto;
+    background: #fff; color: #1e2330; border-radius: 24px 24px 0 0; padding: 20px 20px 28px;
+    animation: up .22s ease;
+  }
+  @media (min-width: 640px) { .modal { align-items: center; } .sheet { border-radius: 24px; } }
+  @keyframes up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .sheet-head h2 { font-size: 17px; font-weight: 700; }
+  .close {
+    flex: none; width: 36px; height: 36px; border-radius: 50%; border: 0; background: #f1f1f3;
+    font-size: 20px; line-height: 1; cursor: pointer; color: #1e2330;
+  }
+  .sheet p { white-space: pre-line; font-size: 15px; line-height: 1.6; }
+  .sheet iframe { width: 100%; aspect-ratio: 374/212; border: 0; border-radius: 12px; display: block; margin-bottom: 12px; }
+  .sheet .pill {
+    display: block; margin-top: 20px; padding: 14px; text-align: center; border-radius: 12px;
+    background: #1e2330; color: #fff; font-weight: 600; font-size: 15px; text-decoration: none;
+  }
+  .toast {
+    position: fixed; left: 50%; bottom: 32px; transform: translateX(-50%); z-index: 20;
+    background: #1e2330; color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 14px;
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="corner left" href="#" aria-label="Yoke Room" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></svg>
+  </a>
+  <button class="corner right" type="button" id="share" aria-label="分享">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M8 11H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-2"/></svg>
+  </button>
+  <main>
+    <div class="avatar"><img src="assets/avatar.jpeg" alt="@yokeroom"></div>
+    <h1>@yokeroom</h1>
+    <p class="bio">森合室｜24H預約制空間租借｜跳舞練習室｜瑜伽空間｜講座場地｜活動場地</p>
+
+    <div class="links" id="links"></div>
+  </main>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="modal-title"></h2>
+      <button class="close" type="button" aria-label="關閉">×</button>
+    </div>
+    <iframe id="modal-map" title="Google Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <p id="modal-body"></p>
+    <a class="pill" id="modal-btn" target="_blank" rel="noopener">Get directions</a>
+  </div>
+</div>
+<div class="toast" id="toast">已複製連結</div>
+
+<script>
+// kind: link | map (opens modal with embed)
+const GROUPS = [
+  { title: "", items: [
+    { kind: "link", title: "空 間 預 約 連 結", url: "https://gobooking.tw/yokeroom/room.html?700410011916040834", icon: "outline-calendar-clock" },
+  ]},
+  { title: "", items: [
+    { kind: "map", title: "Yoke Room 在新莊", url: "https://maps.app.goo.gl/rPurJafqmKj9nRDr6?g_st=ic", icon: "outline-map-2", geo: "25.0237948,121.4241428", sub: "No. 25號, Siwei Rd",
+      addr: "No. 25號, Siwei Rd, Xinzhuang District, New Taipei City, Taiwan 242" },
+    { kind: "link", title: "聯繫我們LINE official", url: "https://line.me/R/ti/p/@256qegfd", icon: "outline-zoom-question" },
+  ]},
+  { title: "周邊停車資訊", items: [
+    { kind: "link", title: "京王地下停車場", url: "https://maps.app.goo.gl/FEK6C9ZgnvaFYKjH6?g_st=ic", icon: "outline-car-garage" },
+    { kind: "link", title: "四維立體停車場", url: "https://maps.google.com/?q=242%E6%96%B0%E5%8C%97%E5%B8%82%E6%96%B0%E8%8E%8A%E5%8D%80%E5%9B%9B%E7%B6%AD%E8%B7%AF95%E8%99%9F%E5%9B%9B%E7%B6%AD%E7%AB%8B%E9%AB%94%E5%81%9C%E8%BB%8A%E5%A0%B4&ftid=0x3442a7f337e111bd:0x904310612e62c49e", icon: "outline-car-garage" },
+  ]},
+];
+
+const ICONS = {"outline-calendar-clock": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" ><path d=\"M10.5 21h-4.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v3\" /><path d=\"M16 3v4\" /><path d=\"M8 3v4\" /><path d=\"M4 11h10\" /><path d=\"M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\" /><path d=\"M18 16.5v1.5l.5 .5\" /></svg>", "outline-car-garage": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" ><path d=\"M5 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0\" /><path d=\"M15 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0\" /><path d=\"M5 20h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5\" /><path d=\"M3 6l9 -4l9 4\" /></svg>", "outline-map-2": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" ><path d=\"M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5\" /><path d=\"M9 4v13\" /><path d=\"M15 7v5.5\" /><path d=\"M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z\" /><path d=\"M19 18v.01\" /></svg>", "outline-zoom-question": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" ><path d=\"M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0\" /><path d=\"M21 21l-6 -6\" /><path d=\"M10 13l0 .01\" /><path d=\"M10 10a1.5 1.5 0 1 0 -1.14 -2.474\" /></svg>"};
+const DOTS = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+const PIN = '<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const thumb = it => it.icon ? `<span class="thumb"><span class="icon">${ICONS[it.icon]}</span></span>` : "";
+const sub = it => it.sub ? `<span class="sub">${PIN}${esc(it.sub)}</span>` : "";
+const more = `<span class="more">${DOTS}</span>`;
+// Official Google Maps embed (keyless "Share > Embed a map" form)
+const embed = geo => `https://maps.google.com/maps?q=${geo}&z=16&hl=zh-TW&output=embed`;
+
+function render(it, gi, ii) {
+  if (it.kind === "map")
+    return `<button class="btn" type="button" data-open="${gi}-${ii}">${thumb(it)}<span>${esc(it.title)}</span>${sub(it)}${more}</button>`;
+  return `<a class="btn" href="${esc(it.url)}" target="_blank" rel="noopener">${thumb(it)}<span>${esc(it.title)}</span>${more}</a>`;
+}
+
+document.getElementById("links").innerHTML = GROUPS.map((g, gi) => `
+  <section class="group">
+    ${g.title ? `<h2 class="group-title">${esc(g.title)}</h2>` : ""}
+    ${g.items.map((it, ii) => render(it, gi, ii)).join("")}
+  </section>`).join("");
+
+// Map modal
+const modal = document.getElementById("modal");
+document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => {
+  const [gi, ii] = b.dataset.open.split("-").map(Number);
+  const it = GROUPS[gi].items[ii];
+  document.getElementById("modal-title").textContent = it.title;
+  document.getElementById("modal-body").textContent = it.addr;
+  document.getElementById("modal-map").src = embed(it.geo);
+  document.getElementById("modal-btn").href = it.url;
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+}));
+
+// Share
+document.getElementById("share").addEventListener("click", async () => {
+  const data = { title: "@yokeroom", url: location.href };
+  try {
+    if (navigator.share) return await navigator.share(data);
+    await navigator.clipboard.writeText(location.href);
+    const t = document.getElementById("toast");
+    t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1600);
+  } catch (e) {}
+});
+const closeModal = () => { modal.classList.remove("open"); document.body.style.overflow = ""; };
+modal.querySelector(".close").addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+</script>
+</body>
+</html>
